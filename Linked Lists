@@ -7,60 +7,55 @@ public class Main {
         int choice1,choice2;
         LinkedList ll = new LinkedList ();
         Scanner sc = new Scanner (System.in);
-        System.out.println("What would you like to do?\n1. Insert\n2. Delete");
-        choice1 = sc.nextInt();
-        if (choice1 == 1)
+        for (int i=0; i<100;i++)
         {
-            System.out.println("Enter the data you want to enter - ");
-            data = sc.nextInt();
-            System.out.println("Insert at 1. Start || 2. End || 3. In between");
-            choice2 = sc.nextInt();
-            if (choice2 == 1)
+            System.out.println("\nWhat would you like to do?\n1. Insert\n2. Delete");
+            choice1 = sc.nextInt();
+            if (choice1 == 1)
             {
-                ll.insertstart(data);
-                ll.printlist();
+                System.out.println("Enter the data you want to enter - ");
+                data = sc.nextInt();
+                System.out.println("Insert at 1. Start || 2. End || 3. In between");
+                choice2 = sc.nextInt();
+                if (choice2 == 1)
+                {
+                    ll.insertstart(data);
+                    ll.printlist();
+                }
+                if (choice2 == 2)
+                {
+                    ll.insertend(data);
+                    ll.printlist();
+                }
+                if (choice2 == 3)
+                {
+                    System.out.println("Insert the data after which you want to enter it - ");
+                    position = sc.nextInt();
+                    ll.insertbetween(data, position);
+                    ll.printlist();
+                }
             }
-            if (choice2 == 2)
+            if (choice1 == 2)
             {
-                ll.insertend(data);
-                ll.printlist();
-            }
-            if (choice2 == 3)
-            {
-                System.out.println("Insert the data after which you want to enter it - ");
-                position = sc.nextInt();
-                ll.insertbetween(data, position);
-                ll.printlist();
-            }
-            else
-            {
-                System.out.println("Invalid Choice.");
-            }
-        }
-        if (choice1 == 2)
-        {
-            System.out.println("Delete from 1. Start || 2. End || 3. In between");
-            choice2 = sc.nextInt();
-            if (choice2 == 1)
-            {
-                deldata = ll.deletestart();
-                ll.printlist();
-            }
-            if (choice2 == 2)
-            {
-                deldata = ll.deleteend();
-                ll.printlist();
-            }
-            if (choice2 == 3)
-            {
-                System.out.println("Insert the data after which you want to delete - ");
-                position = sc.nextInt();
-                deldata = ll.deletebetween(position);
-                ll.printlist();
-            }
-            else
-            {
-                System.out.println("Invalid Choice.");
+                System.out.println("Delete from 1. Start || 2. End || 3. In between");
+                choice2 = sc.nextInt();
+                if (choice2 == 1)
+                {
+                    deldata = ll.deletestart();
+                    ll.printlist();
+                }
+                if (choice2 == 2)
+                {
+                    deldata = ll.deleteend();
+                    ll.printlist();
+                }
+                if (choice2 == 3)
+                {
+                    System.out.println("Insert the data after which you want to delete - ");
+                    position = sc.nextInt();
+                    deldata = ll.deletebetween(position);
+                    ll.printlist();
+                }
             }
         }
     }
@@ -73,12 +68,10 @@ class node{
 
 class LinkedList{
     
-    node list;
-    node p;
-    node q;
-    
+    static node list = new node ();
     void insertstart(int data)
     {
+        node p = new node();
         p.info = data;
         if (list!= null)
         {
@@ -92,6 +85,8 @@ class LinkedList{
     
     void insertend(int data)
     {
+        node p = new node();
+        node q = new node ();
         p.info = data;
         q=list;
         while (q.next != null)
@@ -104,7 +99,10 @@ class LinkedList{
     
     void insertbetween(int data, int position)
     {
+        node p = new node();
+        node q = new node ();
         q = list;
+        
         while (q.info != position)
         {
             q=p;
@@ -118,6 +116,7 @@ class LinkedList{
     
     int deletestart()
     {
+        node p = new node();
         int deldata;
         p = list;
         list =list.next;
@@ -128,6 +127,8 @@ class LinkedList{
     
     int deleteend()
     {
+        node p = new node();
+        node q = new node ();
         int deldata;
         p = list;
         while (p.next != null)
@@ -143,6 +144,8 @@ class LinkedList{
     
     int deletebetween(int position)
     {
+        node p = new node();
+        node q = new node ();
         int deldata;
         while (p.info != position)
         {
@@ -157,6 +160,7 @@ class LinkedList{
     
     void printlist ()
     {
+        node p = new node();
         p = list;
         if (list == null)
         {System.out.println("The list is empty.");}
