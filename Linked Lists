@@ -80,7 +80,7 @@ class LinkedList{
     void insertstart(int data)
     {
         p.info = data;
-        if (list!= NULL)
+        if (list!= null)
         {
             p.next = list;
             list = p;
@@ -94,7 +94,7 @@ class LinkedList{
     {
         p.info = data;
         q=list;
-        while (q.next != null!)
+        while (q.next != null)
         {
             q = q.next;
         }
@@ -105,12 +105,12 @@ class LinkedList{
     void insertbetween(int data, int position)
     {
         q = list;
-        while (q.next != position)
+        while (q.info != position)
         {
             q=p;
             p = p.next;
         }
-        node r;
+        node r = new node ();
         r.info = data;
         r.next = q;
         q.next = r;
@@ -122,8 +122,7 @@ class LinkedList{
         p = list;
         list =list.next;
         deldata = p.info;
-        p.info = null;
-        p.next = null;
+        p = null;
         return deldata;
     }
     
@@ -137,8 +136,7 @@ class LinkedList{
             p = p.next;
         }
         deldata = p.info;
-        p.info =null;
-        p.next = null;
+        p = null;
         q.next = null;
         return deldata;
     }
@@ -146,15 +144,14 @@ class LinkedList{
     int deletebetween(int position)
     {
         int deldata;
-        while (p.next != position)
+        while (p.info != position)
         {
             q=p;
             p =p.next;
         }
         q.next = p.next;
         deldata = p.info;
-        p.info = null;
-        p.next = null;
+        p = null;
         return deldata;
     }
     
@@ -167,7 +164,7 @@ class LinkedList{
         {
             while (p.next != null)
             {
-                System.out.System.out.print(p.info+" ");
+                System.out.print(p.info+" ");
                 p = p.next;
             }
         }
