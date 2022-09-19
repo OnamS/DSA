@@ -101,15 +101,15 @@ class LinkedList{
     {
         node p = new node();
         node q = new node ();
+        node r = new node ();
+        r.info = data;
         q = list;
-        
+        p = list;
         while (q.info != position)
         {
             q=p;
             p = p.next;
         }
-        node r = new node ();
-        r.info = data;
         r.next = q;
         q.next = r;
     }
@@ -146,6 +146,7 @@ class LinkedList{
     {
         node p = new node();
         node q = new node ();
+        p = list;
         int deldata;
         while (p.info != position)
         {
