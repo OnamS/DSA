@@ -1,0 +1,175 @@
+import java.util.*;
+
+public class Main {
+    public static void main (String args[])
+    {
+        int data, position,deldata;
+        int choice1,choice2;
+        LinkedList ll = new LinkedList ();
+        Scanner sc = new Scanner (System.in);
+        System.out.println("What would you like to do?\n1. Insert\n2. Delete");
+        choice1 = sc.nextInt();
+        if (choice1 == 1)
+        {
+            System.out.println("Enter the data you want to enter - ");
+            data = sc.nextInt();
+            System.out.println("Insert at 1. Start || 2. End || 3. In between");
+            choice2 = sc.nextInt();
+            if (choice2 == 1)
+            {
+                ll.insertstart(data);
+                ll.printlist();
+            }
+            if (choice2 == 2)
+            {
+                ll.insertend(data);
+                ll.printlist();
+            }
+            if (choice2 == 3)
+            {
+                System.out.println("Insert the data after which you want to enter it - ");
+                position = sc.nextInt();
+                ll.insertbetween(data, position);
+                ll.printlist();
+            }
+            else
+            {
+                System.out.println("Invalid Choice.");
+            }
+        }
+        if (choice1 == 2)
+        {
+            System.out.println("Delete from 1. Start || 2. End || 3. In between");
+            choice2 = sc.nextInt();
+            if (choice2 == 1)
+            {
+                deldata = ll.deletestart();
+                ll.printlist();
+            }
+            if (choice2 == 2)
+            {
+                deldata = ll.deleteend();
+                ll.printlist();
+            }
+            if (choice2 == 3)
+            {
+                System.out.println("Insert the data after which you want to delete - ");
+                position = sc.nextInt();
+                deldata = ll.deletebetween(position);
+                ll.printlist();
+            }
+            else
+            {
+                System.out.println("Invalid Choice.");
+            }
+        }
+    }
+}
+
+class node{
+    int info;
+    node next;
+}
+
+class LinkedList{
+    
+    node list;
+    node p;
+    node q;
+    
+    void insertstart(int data)
+    {
+        p.info = data;
+        if (list!= NULL)
+        {
+            p.next = list;
+            list = p;
+        }
+        else{
+            list = p;
+        }
+    }
+    
+    void insertend(int data)
+    {
+        p.info = data;
+        q=list;
+        while (q.next != null!)
+        {
+            q = q.next;
+        }
+        q.next = p;
+        p.next = null;
+    }
+    
+    void insertbetween(int data, int position)
+    {
+        q = list;
+        while (q.next != position)
+        {
+            q=p;
+            p = p.next;
+        }
+        node r;
+        r.info = data;
+        r.next = q;
+        q.next = r;
+    }
+    
+    int deletestart()
+    {
+        int deldata;
+        p = list;
+        list =list.next;
+        deldata = p.info;
+        p.info = null;
+        p.next = null;
+        return deldata;
+    }
+    
+    int deleteend()
+    {
+        int deldata;
+        p = list;
+        while (p.next != null)
+        {
+            q=p;
+            p = p.next;
+        }
+        deldata = p.info;
+        p.info =null;
+        p.next = null;
+        q.next = null;
+        return deldata;
+    }
+    
+    int deletebetween(int position)
+    {
+        int deldata;
+        while (p.next != position)
+        {
+            q=p;
+            p =p.next;
+        }
+        q.next = p.next;
+        deldata = p.info;
+        p.info = null;
+        p.next = null;
+        return deldata;
+    }
+    
+    void printlist ()
+    {
+        p = list;
+        if (list == null)
+        {System.out.println("The list is empty.");}
+        else
+        {
+            while (p.next != null)
+            {
+                System.out.System.out.print(p.info+" ");
+                p = p.next;
+            }
+        }
+    }
+}
