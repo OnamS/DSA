@@ -51,7 +51,7 @@ public class Main {
                 }
                 if (choice2 == 3)
                 {
-                    System.out.println("Insert the data after which you want to delete - ");
+                    System.out.println("Insert the data which you want to delete - ");
                     position = sc.nextInt();
                     deldata = ll.deletebetween(position);
                     ll.printlist();
@@ -86,32 +86,35 @@ class LinkedList{
     void insertend(int data)
     {
         node p = new node();
-        node q = new node ();
         p.info = data;
-        q=list;
+        p.next = null;
+        node q=list;
+        if (list == null)
+        {
+            list = p;
+        }
+        else
+        {
         while (q.next != null)
         {
             q = q.next;
         }
         q.next = p;
-        p.next = null;
+        }
     }
     
     void insertbetween(int data, int position)
     {
         node p = new node();
-        node q = new node ();
         node r = new node ();
         r.info = data;
-        q = list;
         p = list;
-        while (q.info != position)
+        while (p.info != position)
         {
-            q=p;
             p = p.next;
         }
-        r.next = q;
-        q.next = r;
+        r.next = p.next;
+        p.next = r;
     }
     
     int deletestart()
