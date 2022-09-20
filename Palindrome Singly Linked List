@@ -1,0 +1,141 @@
+import java.util.*;
+
+public class Main {
+    public static void main (String args[])
+    {
+        int data, position,deldata;
+        int choice1,choice2;
+        LinkedList ll = new LinkedList ();
+        LinkedList ll1 = new LinkedList ();
+        Scanner sc = new Scanner (System.in);
+        int i;
+        System.out.println ("Enter the size of the list - (temporary)");
+        int size = sc.nextInt();
+        for (i=0; i<size;i++)
+        {
+            System.out.println("\nWhat would you like to do?\n1. Insert\n2. Delete");
+            choice1 = sc.nextInt();
+            if (choice1 == 1)
+            {
+                System.out.println("Enter the data you want to enter - ");
+                data = sc.nextInt();
+		 ll.insertstart (data);
+		 ll.printlist (i);
+                ll1.insertend(data);
+            }
+            if (choice1 == 2)
+            {
+                    deldata = ll.deletestart();
+                    ll.printlist(i);
+            }
+        }
+        int flag = 0;
+		for (int k =1; k<i+1;k++)
+		{
+			System.out.println ("\n");
+			System.out.println(ll.showelement(k)+"   "+ll1.showelement(i+1-k));
+			if (ll.showelement(k)==ll1.showelement(i+1-k))
+			{
+				continue;
+			}
+			else{
+				flag = 1;
+				break;
+			}
+		}
+		if (flag ==1)
+		{System.out.println("Not a palindrome.");}
+		else
+		{System.out.println("Palindrome.");}
+        
+    }
+}
+
+class node{
+    int info;
+    node next;
+}
+
+class LinkedList{
+    
+    static node list = new node ();
+    void insertstart(int data)
+    {
+        node p = new node();
+        p.info = data;
+        if (list!= null)
+        {
+            p.next = list;
+            list = p;
+        }
+        else{
+            list = p;
+        }
+    }
+    
+    void insertend(int data)
+    {
+        node p = new node();
+        p.info = data;
+        p.next = null;
+        node q=list;
+        if (list == null)
+        {
+            list = p;
+        }
+        else
+        {
+        while (q.next != null)
+        {
+            q = q.next;
+        }
+        q.next = p;
+        }
+    }
+    
+    
+    int deletestart ()
+    {
+        node p = new node();
+        int deldata;
+        p = list;
+        list =list.next;
+        deldata = p.info;
+        p = null;
+        return deldata;
+    }
+    
+   
+    void printlist (int i)
+    {
+        node p = new node();
+        p = list;
+        if (list == null)
+        {System.out.println("The list is empty.");}
+        else
+        {
+            while (i>-1)
+            {
+                System.out.print(p.info+" ");
+                p = p.next;
+                i--;
+            }
+        }
+    }
+    int showelement (int position)
+    {
+        node p = new node();
+        node q = new node ();
+        p = list;
+        int i = 0;
+        int deldata;
+        while (i<position-1)
+        {
+            q=p;
+            p =p.next;
+            i++;
+        }
+        deldata = p.info;
+        return deldata;
+    }
+}
