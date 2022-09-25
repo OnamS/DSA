@@ -1,6 +1,7 @@
 import java.util.*;
 
-public class Main {
+public class Main 
+{
     public static void main (String args[])
     {
         int data, position,deldata;
@@ -30,9 +31,15 @@ public class Main {
             {
                 break;
             }
+            
         }
+        Palindrome (i,ll,ll1);
+    }
+    
+    static void Palindrome (int i, LinkedList ll, LinkedList ll1)
+    {
         int flag = 0;
-		for (int k =1; k<i+1;k++)
+		for (int k =1; k<(i+2)/2;k++)
 		{
 			System.out.println ("\n");
 			System.out.println("element "+k+" of both lists: "+ll.showelement(k)+"   "+ll1.showelement(i+1-k));
@@ -53,12 +60,14 @@ public class Main {
     }
 }
 
-class node{
+class node
+{
     int info;
     node next;
 }
 
-class LinkedList{
+class LinkedList
+{
     
     static node list = new node ();
     void insertstart(int data)
