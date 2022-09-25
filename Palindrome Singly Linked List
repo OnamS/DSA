@@ -4,23 +4,21 @@ public class Main {
     public static void main (String args[])
     {
         int data, position,deldata;
-        int choice1,choice2;
+        int choice1;
         LinkedList ll = new LinkedList ();
         LinkedList ll1 = new LinkedList ();
         Scanner sc = new Scanner (System.in);
         int i;
-        System.out.println ("Enter the size of the list - (temporary)");
-        int size = sc.nextInt();
-        for (i=0; i<size;i++)
+        for (i=0; i<100;i++)
         {
-            System.out.println("\nWhat would you like to do?\n1. Insert\n2. Delete");
+            System.out.println("\nWhat would you like to do?\n1. Insert\n2. Delete\n3. Exit");
             choice1 = sc.nextInt();
             if (choice1 == 1)
             {
                 System.out.println("Enter the data you want to enter - ");
                 data = sc.nextInt();
-		 ll.insertstart (data);
-		 ll.printlist (i);
+		        ll.insertstart (data);
+                ll.printlist (i);
                 ll1.insertend(data);
             }
             if (choice1 == 2)
@@ -28,12 +26,16 @@ public class Main {
                     deldata = ll.deletestart();
                     ll.printlist(i);
             }
+            if (choice1 == 3)
+            {
+                break;
+            }
         }
         int flag = 0;
 		for (int k =1; k<i+1;k++)
 		{
 			System.out.println ("\n");
-			System.out.println(ll.showelement(k)+"   "+ll1.showelement(i+1-k));
+			System.out.println("element "+k+" of both lists: "+ll.showelement(k)+"   "+ll1.showelement(i+1-k));
 			if (ll.showelement(k)==ll1.showelement(i+1-k))
 			{
 				continue;
