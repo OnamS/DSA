@@ -5,7 +5,7 @@ public class Main {
     {
         int data, position,deldata;
         int choice1,choice2;
-        LinkedList ll = new LinkedList ();
+        DLinkedList ll = new DLinkedList ();
         Scanner sc = new Scanner (System.in);
         for (int i=0; i<100;i++)
         {
@@ -64,9 +64,10 @@ public class Main {
 class node{
     int info;
     node next;
+    node prev;
 }
 
-class LinkedList{
+class DLinkedList{
     
     static node list = new node ();
     void insertstart(int data)
@@ -76,31 +77,31 @@ class LinkedList{
         if (list!= null)
         {
             p.next = list;
+            p.prev = null;
+            list.prev = null;
             list = p;
         }
-        else{
+        else
+        {
+            p.prev=null;
+            p.next = list.next;
+            list.prev = p;
             list = p;
         }
     }
     
     void insertend(int data)
     {
-        node p = new node();
-        p.info = data;
-        p.next = null;
-        node q=list;
-        if (list == null)
-        {
-            list = p;
-        }
-        else
-        {
-        while (q.next != null)
-        {
-            q = q.next;
-        }
-        q.next = p;
-        }
+        node n = new node();
+		node p = new node();
+		p.info=data;
+		p.next=null;
+		n = list;
+		while(n.next!=null) {
+			n=n.next;
+		}
+		n.next=p;
+		p.prev=n;
     }
     
     void insertbetween(int data, int position)
@@ -113,19 +114,35 @@ class LinkedList{
         {
             p = p.next;
         }
+        
         r.next = p.next;
         p.next = r;
+        r.prev = p;
+        if (r.next != null)
+        {
+            r.next.prev = r;
+        }
     }
     
     int deletestart()
     {
         node p = new node();
+        node q = new node();
         int deldata;
-        p = list;
-        list =list.next;
-        deldata = p.info;
-        p = null;
-        return deldata;
+        if (list != null)
+        {
+            p.prev=null;
+			q.next=null;
+			list=p;
+            deldata = p.info;
+            p = null;
+            return deldata;
+        }
+        else 
+        {
+            System.out.println("The list is empty.");
+            return 0;
+        }
     }
     
     int deleteend()
