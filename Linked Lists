@@ -1,197 +1,214 @@
 import java.util.*;
 
-public class Main {
-    public static void main (String args[])
-    {
-        int data, position,deldata;
-        int choice1,choice2;
-        DLinkedList ll = new DLinkedList ();
-        Scanner sc = new Scanner (System.in);
-        for (int i=0; i<100;i++)
-        {
-            System.out.println("\nWhat would you like to do?\n1. Insert\n2. Delete");
-            choice1 = sc.nextInt();
-            if (choice1 == 1)
-            {
-                System.out.println("Enter the data you want to enter - ");
-                data = sc.nextInt();
-                System.out.println("Insert at 1. Start || 2. End || 3. In between");
-                choice2 = sc.nextInt();
-                if (choice2 == 1)
-                {
-                    ll.insertstart(data);
-                    ll.printlist();
-                }
-                if (choice2 == 2)
-                {
-                    ll.insertend(data);
-                    ll.printlist();
-                }
-                if (choice2 == 3)
-                {
-                    System.out.println("Insert the data after which you want to enter it - ");
-                    position = sc.nextInt();
-                    ll.insertbetween(data, position);
-                    ll.printlist();
-                }
-            }
-            if (choice1 == 2)
-            {
-                System.out.println("Delete from 1. Start || 2. End || 3. In between");
-                choice2 = sc.nextInt();
-                if (choice2 == 1)
-                {
-                    deldata = ll.deletestart();
-                    ll.printlist();
-                }
-                if (choice2 == 2)
-                {
-                    deldata = ll.deleteend();
-                    ll.printlist();
-                }
-                if (choice2 == 3)
-                {
-                    System.out.println("Insert the data which you want to delete - ");
-                    position = sc.nextInt();
-                    deldata = ll.deletebetween(position);
-                    ll.printlist();
-                }
-            }
-        }
-    }
+class dNode {
+	int data;
+	dNode next;
+	dNode prev;
 }
 
-class node{
-    int info;
-    node next;
-    node prev;
-}
-
-class DLinkedList{
-    
-    static node list = new node ();
-    void insertstart(int data)
-    {
-        node p = new node();
-        p.info = data;
-        if (list!= null)
-        {
-            p.next = list;
-            p.prev = null;
-            list.prev = null;
-            list = p;
-        }
-        else
-        {
-            p.prev=null;
-            p.next = list.next;
-            list.prev = p;
-            list = p;
-        }
-    }
-    
-    void insertend(int data)
-    {
-        node n = new node();
-		node p = new node();
-		p.info=data;
+class dlistfunctions {
+	dNode head = null;
+	public void insertstart(int data){
+		dNode n = new dNode();
+		n.data=data;
+		if(head==null) {
+			n.prev=null;
+			n.next=null;
+			head=n;
+		}
+		else {
+			n.prev=null;
+			n.next=head;
+			head.prev=n;
+			head=n;
+		}
+	}
+	public void insertend(int data) {
+		dNode n = new dNode();
+		dNode p = new dNode();
+		p.data=data;
 		p.next=null;
-		n = list;
+		n= head;
 		while(n.next!=null) {
 			n=n.next;
 		}
 		n.next=p;
 		p.prev=n;
-    }
-    
-    void insertbetween(int data, int position)
+		
+	}
+	
+	public void insertafter(int data, int position)
+	    {
+		dNode p = head;
+		dNode r = new dNode ();
+		r.data = data;
+		while (p != null && p.next.data != position)
+		{
+		    p = p.next;
+		}
+		if (p == null)
+		{System.out.println ("The element does not exist.");}
+		else{
+		r.next = p.next;
+		p.next = r;
+		r.prev = p;
+		if (r.next != null)
+		{
+		    r.next.prev = r;
+		}}
+	    }
+	public int deletestart(){
+		dNode n = head;
+		if (head.next == null)
+		{
+			head = null;
+			return n.data;
+		}
+		dNode p = n.next;
+		if(head!=null) {
+			p.prev=null;
+			n.next=null;
+			head=p;
+			int k = n.data;
+           		return k;
+		}
+		else {
+			System.out.println("The list is Empty");
+           		return 0;
+		}
+	}
+	public int deletend() {
+		dNode n = new dNode();
+		n = head;
+		if(head!=null) {
+		while(n.next!=null) {
+			n=n.next;
+		}
+		dNode p = n.prev;
+		p.next=null;
+		n.prev=null;
+		int k = n.data;
+		return k;
+	}
+		else {
+			System.out.println("The list is Empty");
+			return 0;
+		}
+	}
+	int deleteelement(int position)
     {
-        node p = new node();
-        node r = new node ();
-        r.info = data;
-        p = list;
-        while (p.info != position)
-        {
-            p = p.next;
-        }
-        
-        r.next = p.next;
-        p.next = r;
-        r.prev = p;
-        if (r.next != null)
-        {
-            r.next.prev = r;
-        }
-    }
-    
-    int deletestart()
-    {
-        node p = new node();
-        node q = new node();
+        dNode p = new dNode();
+        dNode q = new dNode ();
+        p = head;
         int deldata;
-        if (list != null)
-        {
-            p.prev=null;
-			q.next=null;
-			list=p;
-            deldata = p.info;
-            p = null;
-            return deldata;
-        }
-        else 
-        {
-            System.out.println("The list is empty.");
-            return 0;
-        }
-    }
-    
-    int deleteend()
-    {
-        node p = new node();
-        node q = new node ();
-        int deldata;
-        p = list;
-        while (p.next != null)
-        {
-            q=p;
-            p = p.next;
-        }
-        deldata = p.info;
-        p = null;
-        q.next = null;
-        return deldata;
-    }
-    
-    int deletebetween(int position)
-    {
-        node p = new node();
-        node q = new node ();
-        p = list;
-        int deldata;
-        while (p.info != position)
+        if (head.data == position)
+		{
+			deldata = deletestart();
+			return deldata;
+		}
+	else{
+        while (p.next != null && p.data != position )
         {
             q=p;
             p =p.next;
         }
-        q.next = p.next;
-        deldata = p.info;
-        p = null;
-        return deldata;
-    }
-    
-    void printlist ()
-    {
-        node p = new node();
-        p = list;
-        if (list == null)
-        {System.out.println("The list is empty.");}
+        if (p.next == null && p.data == position)
+        {
+            deldata = deletend();
+            return deldata;
+        }
+        if (p.next == null && p.data != position)
+        {
+        	System.out.println ("Element not found.");
+        	return 0;
+        }
         else
         {
-            while (p.next != null)
-            {
-                System.out.print(p.info+" ");
-                p = p.next;
-            }
+        q.next = p.next;
+        p.next.prev = q;
+        deldata = p.data;
+        p = null;
+        return deldata;
+        }
         }
     }
+	public void show() {
+		dNode p = head;
+		if(head!=null) {
+		while(p.next!=null) {
+			System.out.print(p.data+" ");
+			p=p.next;
+		}
+		System.out.println(p.data+" ");
+		}
+		else {
+			System.out.println("The list is Empty");
+		}
+	}
+}
+public class DLL {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner (System.in);
+		int c1,c2;
+        int data,deldata;
+        dlistfunctions list = new dlistfunctions();
+        for (int i=0;i<100;i++){
+		System.out.println ("What would you like to do?\n1.Insert   2.Delete    3.Exit");
+        c1 = sc.nextInt();
+        if (c1==1)
+        {
+            System.out.println ("Enter data - ");
+            data = sc.nextInt();
+            System.out.println ("Insert -\n1.Start  2.End   3.At data");
+            c2 = sc.nextInt();
+            if (c2==1)
+            {
+                list.insertstart(data);
+                list.show();
+            }
+            if (c2 ==2)
+            {
+                list.insertend(data);
+                list.show();
+            }
+            if (c2 == 3)
+            {
+                System.out.println("Enter the data after which you want to enter.");
+                int position = sc.nextInt();
+                list.insertafter(data,position);
+                list.show();
+            }
+        }
+        if (c1 == 2)
+        {
+            System.out.println ("Delete -\n1.Start  2.End   3.Data");
+            c2 = sc.nextInt();
+            if (c2==1)
+            {
+                deldata = list.deletestart();
+                System.out.println(deldata+" deleted.");
+                list.show();
+            }
+            if (c2==2)
+            {
+                deldata = list.deletend();
+                System.out.println(deldata+" deleted.");
+                list.show();
+            }
+            if (c2==3)
+            {
+                System.out.println("Enter the element to be deleted -");
+                data = sc.nextInt();
+                deldata = list.deleteelement(data);
+                System.out.println(deldata+" deleted.");
+                list.show();
+            }
+        }
+        if (c1==3)
+        {break;}
+    }
+        
+	}
+
 }
