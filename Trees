@@ -1,0 +1,95 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String args[]) {
+        BST bst = new BST ();
+        bst.insert(1);
+        bst.insert(4);
+        bst.insert(5);
+        bst.insert(2);
+        bst.insert(3);
+        bst.postorder();
+        System.out.println("\n");
+        bst.preorder();
+        System.out.println("\n");
+        bst.inorder();
+        System.out.println("\n");
+    }
+}
+
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node (int data)
+    {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+
+class BST 
+{
+    Node root;
+    void insert (int data)
+    {
+        root = insertRec(root, data);
+    }
+
+    Node insertRec(Node root, int data)
+    {
+        if (root == null)
+        {
+            root = new Node(data);
+            return root;
+        }
+        else if (data < root.data)
+            root.left = insertRec(root.left, data);
+        else if (data > root.data)
+            root.right = insertRec(root.right, data);
+        return root;
+    }
+
+    void inorder() 
+    { 
+        inorderRec(root); 
+    }
+    void inorderRec(Node root)
+    {
+        if (root != null) 
+        {
+            inorderRec(root.left);
+            System.out.println(root.data);
+            inorderRec(root.right);
+        }
+    }
+    
+    void preorder() 
+    { 
+        preorderRec(root); 
+    }
+    void preorderRec(Node root)
+    {
+        if (root != null) 
+        {
+            System.out.println(root.data);
+            preorderRec(root.left);
+            preorderRec(root.right);
+        }
+    }
+
+    void postorder() 
+    { 
+        postorderRec(root); 
+    }
+    void postorderRec(Node root)
+    {
+        if (root != null) 
+        {
+            postorderRec(root.left);
+            postorderRec(root.right);
+            System.out.println(root.data);
+        }
+    }
+}
