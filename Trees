@@ -1,18 +1,30 @@
-import java.util.*;
+import java.util.Scanner;
 
-public class Main {
+public class BTree {
     public static void main(String args[]) {
         BST bst = new BST ();
-        bst.insert(1);
-        bst.insert(4);
-        bst.insert(5);
-        bst.insert(2);
-        bst.insert(3);
+        Scanner sc = new Scanner (System.in);
+        int insertel;
+        for (int i=0;i<7;i++)
+        {
+            System.out.println("Enter element to be Inserted - ");
+            insertel = sc.nextInt();
+            bst.insert(insertel);
+        }
+        System.out.println("Postorder - ");
         bst.postorder();
-        System.out.println("\n");
+        System.out.println("\nPreorder - ");
         bst.preorder();
-        System.out.println("\n");
+        System.out.println("\nInorder - ");
         bst.inorder();
+        System.out.println("\nDeleting leftmost leaf.");
+        bst.delete();
+        System.out.println("\nInorder - ");
+        bst.inorder();
+        System.out.println("\nPostorder - ");
+        bst.postorder();
+        System.out.println("\nPreorder - ");
+        bst.preorder();
         System.out.println("\n");
     }
 }
@@ -46,7 +58,7 @@ class BST
         }
         else if (data < root.data)
             root.left = insertRec(root.left, data);
-        else if (data > root.data)
+        else
             root.right = insertRec(root.right, data);
         return root;
     }
@@ -60,7 +72,7 @@ class BST
         if (root != null) 
         {
             inorderRec(root.left);
-            System.out.println(root.data);
+            System.out.print(root.data+" ,");
             inorderRec(root.right);
         }
     }
@@ -73,7 +85,7 @@ class BST
     {
         if (root != null) 
         {
-            System.out.println(root.data);
+            System.out.print(root.data+" ,");
             preorderRec(root.left);
             preorderRec(root.right);
         }
@@ -89,7 +101,25 @@ class BST
         {
             postorderRec(root.left);
             postorderRec(root.right);
-            System.out.println(root.data);
+            System.out.print(root.data+" ,");
         }
+    }
+    
+    void delete()
+    {
+    	Node temp= deleteRec(root);
+    }
+    
+    Node deleteRec(Node root)
+    {
+    	if (root.right==null && root.left ==null)
+    	{
+		root = null;
+    	}
+	else
+	{
+		root.left = deleteRec(root.left);
+	}
+	return root;
     }
 }
