@@ -1,0 +1,108 @@
+import java.util.*;
+class Stack
+{
+char a[]=new char[100];
+int top=-1;
+void push(char c)
+{
+try
+{
+a[++top]= c;
+}
+catch(StringIndexOutOfBoundsException e)
+{
+System.out.println("Stack full, no room to push, size=100");
+System.exit(0);
+}
+}
+char pop()
+{
+return a[top--];
+}
+boolean isEmpty()
+{
+return (top==-1)?true:false;
+}
+char peek()
+{
+ if (top==-1)
+ {return a[0];}
+ else
+return a[top];
+}
+void print(){
+ for (int i=0;i<top;i++){
+ System.out.print(a[i]);
+ }
+ System.out.print("\n");
+ }
+}
+public class Main
+{
+ static Stack operators = new Stack();
+ public static void main(String argvs[])
+ {
+ String infix;
+ Scanner sc = new Scanner(System.in);
+ System.out.print("Enter the input expression :");
+ infix = sc.nextLine();
+ System.out.println("Answer : " + toPostfix(infix));
+ }
+ private static String toPostfix(String infix)
+ {
+ char symbol;
+ String postfix = "";
+ for(int i=0;i<infix.length();++i)
+ {
+ symbol = infix.charAt(i);
+ if (Character.isLetterOrDigit(symbol))
+ postfix = postfix + symbol;
+ else if (symbol=='(')
+ {
+ operators.push(symbol);
+ operators.print();
+ }
+ else if (symbol==')')
+ {
+ while (operators.peek() != '(')
+ {
+ postfix = postfix + operators.pop();
+ operators.print();
+ }
+ operators.pop();
+ operators.print();
+ }
+ else if (prec(symbol)<=prec(operators.peek()))
+ {
+ while (!operators.isEmpty() && !(operators.peek()=='(') && prec(symbol) <=
+prec(operators.peek()))
+ postfix = postfix + operators.pop();
+ operators.print();
+ operators.push(symbol);
+ operators.print();
+ }
+ else {
+ operators.push(symbol);
+ operators.print();
+ }
+
+ }
+ while (!operators.isEmpty()) {
+ postfix = postfix + operators.pop();
+ operators.print();}
+ return postfix;
+ }
+
+
+ static int prec(char x)
+ {
+ if (x == '+' || x == '-')
+ return 1;
+ if (x == '*' || x == '/')
+ return 2;
+ if (x=='^')
+ return 3;
+ else
+ return 0;
+ }
+ }
