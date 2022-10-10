@@ -1,31 +1,51 @@
 import java.util.Scanner;
 
-public class BTree {
+public class Main {
     public static void main(String args[]) {
+        int data, choice;
         BST bst = new BST ();
         Scanner sc = new Scanner (System.in);
-        int insertel;
-        for (int i=0;i<7;i++)
+        for (int i = 0;i<100;i++)
         {
-            System.out.println("Enter element to be Inserted - ");
-            insertel = sc.nextInt();
-            bst.insert(insertel);
+            System.out.println("What would you like to do?\n1.Insert 2.Delete 3.Traverse 4.Exit");
+            choice = sc.nextInt();
+            if (choice == 1)
+            {
+                System.out.println("Enter the data you want to insert - ");
+                data = sc.nextInt();
+                bst.insert(data);
+            }
+            if (choice == 2)
+            {
+                System.out.println("Enter the data you want to delete - ");
+                data = sc.nextInt();
+                bst.delete(data);
+            }
+            if (choice == 3)
+            {
+                System.out.println("Enter the type of traversal\n1.preorder 2.inorder 3.Postorder");
+                choice = sc.nextInt();
+                if (choice == 1)
+                {
+                    bst.preorder();
+                    System.out.println();
+                }
+                if (choice == 2)
+                {
+                    bst.inorder();
+                    System.out.println();
+                }
+                if (choice == 3)
+                {
+                    bst.postorder();
+                    System.out.println();
+                }
+            }
+            if (choice == 4)
+            {
+                break;
+            }
         }
-        System.out.println("Postorder - ");
-        bst.postorder();
-        System.out.println("\nPreorder - ");
-        bst.preorder();
-        System.out.println("\nInorder - ");
-        bst.inorder();
-        System.out.println("\nDeleting leftmost leaf.");
-        bst.delete();
-        System.out.println("\nInorder - ");
-        bst.inorder();
-        System.out.println("\nPostorder - ");
-        bst.postorder();
-        System.out.println("\nPreorder - ");
-        bst.preorder();
-        System.out.println("\n");
     }
 }
 
@@ -44,12 +64,12 @@ class Node{
 class BST 
 {
     Node root;
+    
     void insert (int data)
     {
-        root = insertRec(root, data);
+        root = insert(root, data);
     }
-
-    Node insertRec(Node root, int data)
+    Node insert(Node root, int data)
     {
         if (root == null)
         {
@@ -57,69 +77,102 @@ class BST
             return root;
         }
         else if (data < root.data)
-            root.left = insertRec(root.left, data);
+            root.left = insert(root.left, data);
         else
-            root.right = insertRec(root.right, data);
+            root.right = insert(root.right, data);
         return root;
     }
 
     void inorder() 
     { 
-        inorderRec(root); 
+        inorder(root); 
     }
-    void inorderRec(Node root)
+    void inorder(Node root)
     {
         if (root != null) 
         {
-            inorderRec(root.left);
+            inorder(root.left);
             System.out.print(root.data+" ,");
-            inorderRec(root.right);
+            inorder(root.right);
         }
     }
     
     void preorder() 
     { 
-        preorderRec(root); 
+        preorder(root); 
     }
-    void preorderRec(Node root)
+    void preorder(Node root)
     {
         if (root != null) 
         {
             System.out.print(root.data+" ,");
-            preorderRec(root.left);
-            preorderRec(root.right);
+            preorder(root.left);
+            preorder(root.right);
         }
     }
 
     void postorder() 
     { 
-        postorderRec(root); 
+        postorder(root); 
     }
-    void postorderRec(Node root)
+    void postorder(Node root)
     {
         if (root != null) 
         {
-            postorderRec(root.left);
-            postorderRec(root.right);
+            postorder(root.left);
+            postorder(root.right);
             System.out.print(root.data+" ,");
         }
     }
     
-    void delete()
+    void delete(int data)
     {
-    	Node temp= deleteRec(root);
+        root = delete(root, data);
     }
-    
-    Node deleteRec(Node root)
+
+    Node delete(Node root, int data)
     {
-    	if (root.right==null && root.left ==null)
-    	{
-		root = null;
-    	}
-	else
-	{
-		root.left = deleteRec(root.left);
-	}
-	return root;
+        if(root == null)
+        {
+            return root;
+        }
+        else if(data < root.data)
+        {
+            root.left = delete(root.left, data);
+        }
+        else if(data > root.data)
+        {
+            root.right = delete(root.right, data);
+        }
+        else
+        {
+            if(root.left == null && root.right == null)
+            {
+                root = null;
+            }
+            else if(root.left == null)
+            {
+                root = root.right;
+            }
+            else if(root.right == null)
+            {
+                root = root.left;
+            }
+            else
+            {
+                Node temp = findMin(root.right);
+                root.data = temp.data;
+                root.right = delete(root.right, temp.data);
+            }
+        }
+        return root;
+    }
+    Node findMin(Node root)
+    {
+        while(root.left != null)
+        {
+            root = root.left;
+        }
+    return root;
     }
 }
