@@ -1,0 +1,120 @@
+import java.util.*;
+
+class Node
+{
+    char data;
+    Node left,right;
+    Node(char data)
+    {
+        this.data = data;
+        left = null;
+        right = null;
+    }
+}
+
+class ET
+{
+    Node insert(String equation)
+    {
+        Stack s = new Stack();
+        char [] eq = equation.toCharArray();
+        Node n=null;
+        for (int i=0;i<equation.length();i++)
+        {
+            if (eq[i]=='+' || eq[i]=='-' || eq[i]=='*'||eq[i]=='/')
+                {
+                    n = new Node(eq[i]);
+                    n.right = s.pop();
+                    n.left = s.pop();
+                    s.push(n);
+                }
+                else
+                {
+                    n = new Node(eq[i]);
+                    s.push(n);
+                }
+        }
+        return n;
+    }
+
+    void inorder(Node root)
+    {
+        if (root != null) 
+        {
+            inorder(root.left);
+            System.out.print(root.data);
+            inorder(root.right);
+        }
+    }
+}
+
+class Stack
+{
+    Node a[]=new Node[5];
+    int top=-1;
+    void push(Node c)
+    {
+        if (top == 4)
+        {
+            System.out.println("Stack already full."); 
+        }
+        else
+        {
+            top++;
+            a[top]= c;
+        };
+    }
+    
+    Node pop()
+    {
+        int x;
+        if (isEmpty())
+        {
+            System.out.println("Stack already Empty.");
+            return null;
+        }
+        else
+        {
+            x = top;
+            top--;
+            return a[x];
+        }
+    }
+    
+    boolean isEmpty()
+    {
+        return (top==-1);
+    }
+    
+    Node peek()
+    {
+        if (top==-1)
+        {
+            return null;
+        }
+        else
+            return a[top];
+    }
+    
+    void printStack()
+    {
+        for (int i=0;i<top+1;i++)
+        {
+            System.out.print(a[i]);
+        }
+    }
+}
+
+public class Main
+{
+    public static void main (String args [])
+    {
+        Scanner sc = new Scanner (System.in);
+        String equation;
+        System.out.println("Enter the equation - ");
+        equation = sc.nextLine();
+        ET exp = new ET();
+        Node n = exp.insert(equation);
+        exp.inorder(n);
+    }
+}
