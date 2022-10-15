@@ -87,6 +87,82 @@ class Stack
     }
 }
 
+public class Main
+{
+    public static void main (String args [])
+    {
+        Scanner sc = new Scanner (System.in);
+    	ET exp = new ET();
+        String equation;
+        System.out.println("Enter the equation in infix -");
+        equation = sc.nextLine();
+        equation = inpre(equation);
+        System.out.println("The prefix string: "+equation+equation.length());
+		Node n = exp.insert(equation);
+    	System.out.println("Inorder traversal of the tree - ");
+		exp.inorder(n);
+		System.out.println();
+    }
+    
+    static String inpre (String eqin)
+	{
+		char [] eq = eqin.toCharArray();
+		String eqpre = "";
+		Stackch s = new Stackch ();
+		Stackch s1 = new Stackch ();
+		for (int i= eqin.length()-1;i>-1;i--)
+		{
+			if (eq[i] == '+'||eq[i] == '-'||eq[i] == '*'||eq[i] == '/'||eq[i] == '^')
+			{
+				if (prec(eq[i])>=prec(s.peek()))
+				{
+					s.push(eq[i]);
+				}
+				else
+				{
+					while (prec(eq[i])<prec(s.peek()))
+					{s1.push(s.pop());}
+					s.push(eq[i]);
+				}
+			}
+			else if (eq[i]==')')
+				{s.push(eq[i]);}
+			else if (eq[i]=='(')
+			{
+				while (s.peek() != ')')
+				{
+					s1.push(s.pop());
+					
+				}
+			}
+			else
+			{
+				s1.push(eq[i]);
+			}
+		}
+		while (!s.isEmpty())
+			{s1.push(s.pop());}
+		while (!s1.isEmpty())
+		{
+		    eqpre = eqpre +s1.pop();
+		}
+		char[] eqpr = eqpre.toCharArray();
+		return eqpre;
+	}
+	
+	static int prec(char op)
+	{
+		if (op == '+'||op == '-')
+			return 1;
+		if (op == '*' || op == '/')
+			return 2;
+		if (op == '^')
+			return 3;
+		else
+			return 0;
+	}
+}
+
 class Stackch
 {
     char a[]=new char[100];
@@ -139,105 +215,4 @@ class Stackch
     }
 }
 
-
-
-public class Main
-{
-    public static void main (String args [])
-    {
-        Scanner sc = new Scanner (System.in);
-        ET exp = new ET();
-        String eqin,eqpre;
-        System.out.println("Enter the equation in infix -");
-        eqin = sc.nextLine();
-        if (valid (eqin))
-        {
-    		eqpre = inpre(eqin);
-    		System.out.println("The prefix String is: "+eqpre);
-    		Node n = exp.insert(eqpre);
-    		System.out.println("Inorder traversal of the tree: ");
-    		exp.inorder(n);
-    		System.out.println();
-	    }
-    	else
-    	{
-    		System.out.println ("The given infix equation is not valid.");
-    	}
-    }
-    
-    static boolean valid (String equation)
-    {
-    	char [] eq = equation.toCharArray();
-    	int countsign = 0;
-    	int countnum = 0;
-    		for (int i=0;i<equation.length();i++)
-    		{
-    			if (eq[i] == '+'||eq[i] == '-'||eq[i] == '*'||eq[i] == '/'||eq[i] == '^')
-    				countsign++;
-    			else
-    				countnum++;
-    		}
-    		if (countnum == countsign+1)
-    			return true;
-    		else
-    			return false;
-    }
-    
-    static String inpre (String eqin)
-	{
-		char [] eq = eqin.toCharArray();
-		String eqpre = "";
-		Stackch s = new Stackch ();
-		Stackch s1 = new Stackch ();
-		for (int i= eqin.length()-1;i>-1;i--)
-		{
-			if (eq[i] == '+'||eq[i] == '-'||eq[i] == '*'||eq[i] == '/'||eq[i] == '^')
-			{
-				if (prec(eq[i])>=prec(s.peek()))
-				{
-					s.push(eq[i]);
-				}
-				else
-				{
-					while (prec(eq[i])<prec(s.peek()))
-					{s1.push(s.pop());}
-					s.push(eq[i]);
-				}
-			}
-			else if (eq[i]==')')
-				{s.push(eq[i]);}
-			else if (eq[i]=='(')
-			{
-				while (s.peek() != ')')
-				{
-					s1.push(s.pop());
-					
-				}
-			}
-			else
-			{
-				s1.push(eq[i]);
-			}
-		}
-		while (!s.isEmpty())
-			{s1.push(s.pop());}
-		while (!s1.isEmpty())
-		{
-		    eqpre = eqpre +s1.pop();
-		}
-		return eqpre;
-	}
-	
-	static int prec(char op)
-	{
-		if (op == '+'||op == '-')
-			return 1;
-		if (op == '*' || op == '/')
-			return 2;
-		if (op == '^')
-			return 3;
-		else
-			return 0;
-	}
-}
 
