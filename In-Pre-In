@@ -19,7 +19,7 @@ class ET
         Stack s = new Stack();
         char [] eq = equation.toCharArray();
         Node n=null;
-        for (int i=equation.length()-1;i>-1;i--)
+        for (int i=equation.length()-2;i>0;i--)
         {
             if (eq[i]=='+' || eq[i]=='-' || eq[i]=='*'||eq[i]=='/'|| eq[i] == '^')
                 {
@@ -97,7 +97,7 @@ public class Main
         System.out.println("Enter the equation in infix -");
         equation = sc.nextLine();
         equation = inpre(equation);
-        System.out.println("The prefix string: "+equation+equation.length());
+        System.out.println("The prefix string: "+equation);
 		Node n = exp.insert(equation);
     	System.out.println("Inorder traversal of the tree - ");
 		exp.inorder(n);
@@ -134,6 +134,7 @@ public class Main
 					s1.push(s.pop());
 					
 				}
+				s.pop();
 			}
 			else
 			{
