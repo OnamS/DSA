@@ -1,0 +1,137 @@
+import java.util.*;
+
+
+class CircleQ{
+	int size;
+	int front;
+	int rear;
+	int items[] = new int[size];
+	
+	CircleQ (int size, int []items)
+	{
+	this.size = size;
+	this.items = items;
+	front = 0;
+	rear = 0;
+	}
+	
+	boolean isFull(){
+		return (rear+1)%size==front;
+	}
+	boolean isEmpty(){
+		return rear==front;
+	}
+	
+	void enqueue (int x)
+	{
+		if (isFull())
+			System.out.println ("Queue is already Full.");
+		else
+		{
+			rear = (rear+1)%size;
+			items[rear] = x;
+			System.out.println (x+" has been enqueued.");
+		}
+	}
+	
+	int dequeue ()
+	{
+		int x;
+		if (isEmpty())
+			{System.out.println ("Queue is already empty");
+			return 0;}
+		else
+		{
+			x = items[front+1];
+			front = (front+1)%size;
+			System.out.println (x+" has been dequeued");
+			return x;
+		}
+	
+	}
+	void printq(){
+		int temfr = front+1;
+		if (isEmpty()){
+			System.out.println ("Queue Empty.");
+		}
+		else{
+		while ((temfr+1)%size != (rear+1)%size ){
+			System.out.println (items[temfr]);
+			temfr++;
+		}
+		System.out.print(items[rear]);}
+	}
+	int rear (){
+		return items[rear];
+	}
+	int front (){
+		return items[front+1];
+	}
+}
+
+public class queue{
+	public static void main (String args[]){
+		int enq,deq;
+		boolean eorf;
+		Scanner sc = new Scanner (System.in);
+		System.out.println ("Enter the size of the Queue : ");
+		int size = sc.nextInt();
+		int[] items = new int [size]; 
+		CircleQ cq = new CircleQ (size,items);
+		for (int k=0;k<100;k++)
+		{
+			System.out.println ("\nWhat would you like to do?");
+			System.out.println ("1. Enqueue\n2. Dequeue\n3. Print Queue\n4. Check if Full\n5. Check if Empty\n6. Show rear.\n7. Show front\n8. Leave ");
+			System.out.println ("Your choice:");
+			int choice = sc.nextInt();
+			if (choice ==1)
+			{
+				System.out.println ("Enter the element to enqueue : ");
+				enq = sc.nextInt();
+				cq.enqueue (enq);
+				cq.printq ();
+				continue;
+			}
+			if (choice ==2)
+			{
+				deq = cq.dequeue();
+				cq.printq();
+				continue;
+			}
+			if (choice ==3)
+			{	
+				System.out.println ("Queue - ");
+				cq.printq();
+				continue;
+			}
+			if (choice ==4)
+			{
+				eorf = cq.isFull();
+				System.out.println (eorf);
+				continue;
+			}
+			if (choice ==5)
+			{
+				eorf = cq.isEmpty();
+				System.out.println (eorf);
+				continue;
+			}
+			if (choice == 6)
+			{
+				enq = cq.rear();
+				System.out.println (enq+" is the rear");
+				continue;
+			}
+			if (choice == 7)
+			{
+				deq = cq.front();
+				System.out.println (deq+" is the front");
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+}
