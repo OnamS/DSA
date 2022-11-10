@@ -1,62 +1,39 @@
-import java.util.Scanner;
+// Java program for insertion in AVL Tree
+public class Main
+{
+public static void main(String[] args) {
+		AVLTree tree = new AVLTree();
 
-public class Main {
-    public static void main(String args[]) {
-        int data, choice;
-        AVL avl = new AVL ();
-        Scanner sc = new Scanner (System.in);
-        avl.insert(10);
-        avl.insert(3);
-        avl.insert(2);
-        avl.insert(1);
-        avl.insert(5);
-        System.out.println();
-        avl.preorder();
-        System.out.println();
-        avl.inorder();
-    }
+		tree.root = tree.insert(tree.root, 10);
+		tree.root = tree.insert(tree.root, 3);
+		tree.root = tree.insert(tree.root, 2);
+		//tree.root = tree.insert(tree.root, 40);
+		//tree.root = tree.insert(tree.root, 50);
+		//tree.root = tree.insert(tree.root, 25);
+
+		System.out.println("Preorder traversal" +
+						" of constructed tree is : ");
+		tree.preOrder(tree.root);
+	}
 }
 
-class Node
-{
-    int data;
-    Node left;
-    Node right;
-    int height;
-    Node (int data)
-    {
-        this.data = data;
-        left = null;
-        right = null;
-    }
+
+
+
+class Node {
+	int key, height;
+	Node left, right;
+
+	Node(int d) {
+		key = d;
+		height = 1;
+	}
 }
 
-class AVL 
-{
-    Node root;
-    
-    void insert (int data)
-    {
-        root = insert(root, data);
-    }
-    Node insert(Node root, int data)
-    {
-        if (root == null)
-        {
-            root = new Node(data);
-            root.height=findHeight(root);
-            return root;
-        }
-        else if (data < root.data)
-            root.left = insert(root.left, data);
-        else
-            root.right = insert(root.right, data);
-        int height = findHeight(root);
-        root.height = height;
-        return root;
-    }
-    
-    int findHeight(Node p) 
+class AVLTree {
+
+	Node root;
+	int findHeight(Node p) 
     {
         if (p == null)
         {
@@ -69,56 +46,83 @@ class AVL
         else
             return rheight + 1;
     }
-    
-    int bf(Node p)
-    {
-        if (p==null)
-        return 0;
-        else
-        return findHeight(p.left)-findHeight(p.right);
-    }
-    
-    void LLrotate(Node p)
-    {
-        Node q = p.left;
-        p.left = q.right;
-        q.right = p;
-    }
-    
-    Node findparent (Node p)
-    {
-        Node r = root;
-        if (r!=p)
-        {
-            r = findparent(p)
-        }
-    }
-    void preorder() 
-    { 
-        preorder(root); 
-    }
-    void preorder(Node root)
-    {
-        if (root != null) 
-        {
-            System.out.print(root.data+" ,");
-            preorder(root.left);
-            preorder(root.right);
-            if (root.data == 3)
-            LLrotate(root);
-        }
-    }
-     void inorder() 
-    { 
-        inorder(root); 
-    }
-    void inorder(Node root)
-    {
-        if (root != null) 
-        {
-            inorder(root.left);
-            System.out.print(root.data+" ,");
-            inorder(root.right);
-        }
-    }
+
+
+	Node rightRotate(Node y) {
+		Node x = y.left;
+		Node T2 = x.right;
+
+		x.right = y;
+		y.left = T2;
+
+		y.height = Math.max(findHeight(y.left), findHeight(y.right)) + 1;
+		x.height = Math.max(findHeight(x.left), findHeight(x.right)) + 1;
+
+		return x;
+	}
+
+
+	Node LLRotate(Node x) {
+		Node y = x.right;
+		Node T2 = y.left;
+
+		y.left = x;
+		x.right = T2;
+
+		x.height = Math.max(findHeight(x.left), findHeight(x.right));
+		y.height = Math.max(findHeight(y.left), findHeight(y.right));
+
+		return y;
+	}
+
+	int getBalance(Node N) {
+		if (N == null)
+			return 0;
+
+		return findHeight(N.left) - findHeight(N.right);
+	}
+
+	Node insert(Node node, int key) {
+
+		if (node == null)
+			return (new Node(key));
+
+		if (key < node.key)
+			node.left = insert(node.left, key);
+		else if (key > node.key)
+			node.right = insert(node.right, key);
+		else
+			return node;
+
+		node.height = Math.max(findHeight(node.left),findHeight(node.right));
+
+		int balance = getBalance(node);
+
+		if (balance > 1 && key < node.left.key)
+			return rightRotate(node);
+
+		if (balance < -1 && key > node.right.key)
+			return leftRotate(node);
+
+		if (balance > 1 && key > node.left.key) {
+			node.left = leftRotate(node.left);
+			return rightRotate(node);
+		}
+
+		if (balance < -1 && key < node.right.key) {
+			node.right = rightRotate(node.right);
+			return leftRotate(node);
+		}
+
+		return node;
+	}
+
+	void preOrder(Node node) {
+		if (node != null) {
+			System.out.print(node.key + " ");
+			preOrder(node.left);
+			preOrder(node.right);
+		}
+	}
+
 }
