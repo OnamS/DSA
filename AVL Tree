@@ -1,62 +1,54 @@
-import java.util.Scanner;
+import java.util.*;
 
-public class Main {
-    public static void main(String args[]) {
-        int data, choice;
-        AVL avl = new AVL ();
+public class Main
+{
+    public static void main(String[] args) 
+    {
         Scanner sc = new Scanner (System.in);
-        avl.insert(10);
-        avl.insert(3);
-        avl.insert(2);
-        avl.insert(1);
-        avl.insert(5);
-        System.out.println();
-        avl.preorder();
-        System.out.println();
-        avl.inorder();
-    }
-}
-
-class Node
-{
-    int data;
-    Node left;
-    Node right;
-    int height;
-    Node (int data)
-    {
-        this.data = data;
-        left = null;
-        right = null;
-    }
-}
-
-class AVL 
-{
-    Node root;
-    
-    void insert (int data)
-    {
-        root = insert(root, data);
-    }
-    Node insert(Node root, int data)
-    {
-        if (root == null)
+		AVL avl = new AVL();
+        int choice;
+        int flag = 0;
+        while (flag==0)
         {
-            root = new Node(data);
-            root.height=findHeight(root);
-            return root;
+            System.out.println("1. Insert    0.End");
+            choice = sc.nextInt();
+            if (choice ==1)
+            {
+                int data = sc.nextInt();
+                avl.root = avl.insert(avl.root,data);
+            System.out.println("\nPreorder - ");
+    		avl.preorder(avl.root);
+    		System.out.println("\nInorder - ");
+    		avl.inorder(avl.root);
+    		System.out.println();
+            }
+            
+            else if (choice ==0)
+            {
+                flag = 1;
+            }
         }
-        else if (data < root.data)
-            root.left = insert(root.left, data);
-        else
-            root.right = insert(root.right, data);
-        int height = findHeight(root);
-        root.height = height;
-        return root;
-    }
-    
-    int findHeight(Node p) 
+	}
+}
+
+
+
+
+class Node 
+{
+	int data, height;
+	Node left, right;
+
+	Node(int d) {
+		this.data = d;
+		height = 1;
+	}
+}
+
+class AVL
+{
+	Node root;
+	int findHeight(Node p) 
     {
         if (p == null)
         {
@@ -64,61 +56,106 @@ class AVL
         }
         int lheight = findHeight(p.left);
         int rheight = findHeight(p.right);
-        if (lheight > rheight) 
-            return lheight + 1;
-        else
-            return rheight + 1;
+        return Math.max(lheight,rheight)+1;
     }
-    
-    int bf(Node p)
+
+    int bf(Node N) 
     {
-        if (p==null)
-        return 0;
-        else
-        return findHeight(p.left)-findHeight(p.right);
-    }
-    
-    void LLrotate(Node p)
-    {
-        Node q = p.left;
+		if (N == null)
+			return 0;
+
+		return findHeight(N.left) - findHeight(N.right);
+	}
+	
+	Node LLRotate(Node p) 
+	{
+		Node q = p.left;
         p.left = q.right;
         q.right = p;
-    }
-    
-    Node findparent (Node p)
-    {
-        Node r = root;
-        if (r!=p)
-        {
-            r = findparent(p)
-        }
-    }
-    void preorder() 
-    { 
-        preorder(root); 
-    }
-    void preorder(Node root)
-    {
-        if (root != null) 
-        {
-            System.out.print(root.data+" ,");
-            preorder(root.left);
-            preorder(root.right);
-            if (root.data == 3)
-            LLrotate(root);
-        }
-    }
-     void inorder() 
-    { 
-        inorder(root); 
-    }
-    void inorder(Node root)
-    {
-        if (root != null) 
-        {
-            inorder(root.left);
-            System.out.print(root.data+" ,");
-            inorder(root.right);
-        }
-    }
+
+		p.height = Math.max(findHeight(p.left), findHeight(p.right));
+		q.height = Math.max(findHeight(q.left), findHeight(q.right));
+
+		return q;
+	}
+
+
+	Node RRRotate(Node p) 
+	{
+		Node q = p.right;
+		p.right = q.left;
+		q.left = p;
+
+		p.height = findHeight(p);
+		q.height = findHeight(q);
+
+		return q;
+	}
+	
+	Node LRRotate (Node p)
+	{
+	    p.left = RRRotate(p.left);
+	    return LLRotate(p);
+	}
+	
+	Node RLRotate (Node p)
+	{
+	    p.right = LLRotate(p.right);
+	    return RRRotate(p);
+	}
+
+	Node insert(Node node, int data) 
+	{
+
+		if (node == null)
+			return (new Node(data));
+
+		if (data < node.data)
+			node.left = insert(node.left, data);
+		else if (data > node.data)
+			node.right = insert(node.right, data);
+		else
+			return node;
+
+		node.height = findHeight(node);
+
+		if (bf(node) > 1 && data < node.left.data)
+			return LLRotate(node);
+
+		if (bf(node) < -1 && data > node.right.data)
+			return RRRotate(node);
+
+		if (bf(node) > 1 && data > node.left.data) 
+		{
+			return LRRotate(node);
+		}
+
+		if (bf(node) < -1 && data < node.right.data)
+		{
+			return RLRotate(node);
+		}
+
+		return node;
+	}
+
+	void preorder (Node node) 
+	{
+		if (node != null) 
+		{
+			System.out.print(node.data + ",");
+			preorder(node.left);
+			preorder(node.right);
+		}
+	}
+	
+	void inorder (Node node) 
+	{
+		if (node != null) 
+		{
+			inorder(node.left);
+			System.out.print(node.data + ",");
+			inorder(node.right);
+		}
+	}
+
 }
