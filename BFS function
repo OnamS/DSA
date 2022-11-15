@@ -1,0 +1,23 @@
+static void dfs (int[][]mat,int start,int size)
+	{
+		Stack s = new Stack();
+		boolean visited [] = new boolean [size];
+		int time = 0;
+		visited [start]=true;
+		s.push(start);
+		int hold = start;
+		while (!s.isEmpty())
+		{
+		for (int i=0;i<size;i++)
+		{
+			if (mat[hold][i]==1 && (!visited[i]))
+			{
+				s.push(i);
+				System.out.println("Vertex "+i+" Time "+time);
+				time++;
+				visited[i]=true;
+			}
+		}
+		hold = s.pop();
+		}
+	}
