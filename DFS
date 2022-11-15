@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Main1 
+class Main
 {
 	static int[][] adj;
 	static int time = 1;
@@ -15,20 +15,16 @@ class Main1
 	static void dfs(int start, boolean[] visited)
 	{
 		
-		System.out.print("Node - "+start + " Start Time - "+time);
 		count[start][0] = time;
 		time++;
-		System.out.println();
 		visited[start] = true;
 		for (int i = 0; i < adj[start].length; i++) 
 		{
 			if (adj[start][i] == 1 && (!visited[i])) 
 			{
 				dfs(i, visited);
-				System.out.print("Node - "+i + " End Time - "+time);
-				count[start][1] = time;
+				count[i][1] = time;
 				time++;
-				System.out.println();        
 			}
 		}
 	}
@@ -60,7 +56,6 @@ class Main1
 		System.out.println("Specify Start Point.");
 		int start = sc.nextInt();
 		dfs(start, visited);
-		System.out.print("Node - "+start + " End Time - "+time+"\n");
 		count[start][1]=time;
 		for (int i=0;i<size;i++)
 		{
