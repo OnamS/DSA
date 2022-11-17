@@ -1,0 +1,96 @@
+import java.util.*;
+
+public class exp9
+{
+	public static void main (String args[])
+	{
+		Scanner sc = new Scanner (System.in);
+		System.out.println("Enter the size of your heap - ");
+		int n = sc.nextInt();
+		minHeap mh = new minHeap((n+1));
+		for (int i = 0;i<n;i++)
+		{
+			System.out.println("Enter element "+(i+1));
+			int data = sc.nextInt();
+			mh.insert(data);
+		}
+		printar(mh.arr);
+		System.out.println();
+		mh.heapsort();	
+	}
+	
+	static void printar (int [] arr)
+	{
+		for (int i=1;i<arr.length;i++)
+		{
+			System.out.print(arr[i]+" ");
+		}
+		System.out.println();
+	}
+}
+
+class minHeap
+{
+	int size;
+	int [] arr;
+	static int index = 1;
+	minHeap(int size)
+	{
+		this.size = size;
+		arr = new int [size];
+	}
+	
+	void insert(int data)
+	{
+		arr[index]=data;
+		topdown(index);
+		index++;	
+	}
+	
+	void topdown(int last)
+	{
+		int parent = last/2;
+		int child = last;
+		int temp;
+		if (last>0)
+			{
+				while (arr[parent]>arr[child])
+				{
+					temp = arr[child];
+					arr[child] = arr[parent];
+					arr[parent] = temp;
+					child = parent;
+					parent = parent/2;
+				}
+			}
+	}
+	void heapsort()
+	{
+		int temp;
+		int last = index-1;
+		while (last>0)
+		{
+			System.out.println("\nSwapped -");
+			temp = arr[last];
+			arr[last] = arr[1];
+			arr[1] = temp;
+			printar();
+			System.out.println("\nSorted -");
+			last--;
+			for (int i=last;i>0;i--)
+			{
+			topdown(i);
+			}
+			printar();
+		}
+	}
+	
+	void printar ()
+	{
+		for (int i=1;i<arr.length;i++)
+		{
+			System.out.print(arr[i]+" ");
+		}
+	}
+	
+}
