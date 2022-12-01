@@ -29,18 +29,30 @@ class LL
 		}
 	}
 	
+	void delete(int data)
+	{
+		Node p = head;
+		Node q=null;
+		while (data!=p.data)
+		{
+			q=p;
+			p = p.next;
+		}
+		q.next = p.next;
+	}
+	
 	void show()
 	{
 		Node p = head;
 		while (p.next!=null)
 		{
 			p = p.next;
-			System.out.println(p.data+" ");
+			System.out.print(p.data+" ");
 		}
+		System.out.println();
 	}
 }
 
-class DelDup
 
 public class Main
 {
@@ -53,5 +65,22 @@ public class Main
 		ll.insert(2);
 		ll.insert(1);
 		ll.show();
+		deldup(ll);
+		ll.show();
+	}
+	
+	static void deldup(LL ll)
+	{
+		Node p = ll.head;
+		Node q = null;
+		while (p.next!=null)
+		{
+			q=p;
+			p = p.next;
+			if (p.data==q.data)
+			{
+				ll.delete(q.data);
+			}
+		}
 	}
 }
