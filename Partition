@@ -1,0 +1,106 @@
+import java.util.*;
+
+class Node
+{
+	int data;
+	Node next;
+	Node(int data)
+	{
+		this.data = data;
+		next = null;
+	}
+}
+
+class LL
+{
+	Node head = new Node(0);
+	void insert(int data)
+	{
+		Node p = new Node(data);
+		Node q = head;
+		if (head == null)
+		{
+			head.data = p.data;
+			p.next = null;
+		}
+		else
+		{
+			while (q.next!=null)
+			{
+				q = q.next;
+			}
+			q.next = p;
+		}
+	}
+	
+	void delete(int data)
+	{
+		Node p = head;
+		Node q=null;
+		while (data!=p.data)
+		{
+			q=p;
+			p = p.next;
+		}
+		q.next = p.next;
+	}
+	
+	void show()
+	{
+		Node p = head;
+		while (p.next!=null)
+		{
+			p = p.next;
+			System.out.print(p.data+" ");
+		}
+		System.out.println();
+	}
+}
+
+
+public class Main
+{
+	public static void main(String args[])
+	{
+		LL ll = new LL();
+		ll.insert(1);
+		ll.insert(4);
+		ll.insert(3);
+		ll.insert(2);
+		ll.insert(5);
+		ll.insert(2);
+		ll.show();
+		ll = function (ll,3);
+		ll.show();
+	}
+	
+	static LL function (LL ll,int x)
+	{
+		LL lla = new LL();
+		LL llb = new LL();
+		Node p=ll.head;
+		while (p.next!= null)
+		{
+			p=p.next;
+			if (p.data<x)
+				lla.insert(p.data);
+			else
+				llb.insert(p.data);
+		}
+		lla = concatenate (lla,llb);
+		return lla;
+	}
+	
+	static LL concatenate(LL lla,LL llb)
+	{
+		Node p= lla.head;
+		Node q = llb.head;
+		while (p.next!=null)
+		{
+			p=p.next;
+		}
+		p.next = q.next;
+		return lla;
+	}
+	
+}
