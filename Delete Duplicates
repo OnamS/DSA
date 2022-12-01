@@ -1,0 +1,57 @@
+import java.util.*;
+
+class Node
+{
+	int data;
+	Node next;
+	Node(int data)
+	{
+		this.data = data;
+		next = null;
+	}
+}
+
+class LL
+{
+	Node head = new Node(0);
+	void insert(int data)
+	{
+		Node p = new Node(data);
+		if (head == null)
+		{
+			head.data = p.data;
+			p.next = null;
+		}
+		else
+		{
+			p.next = head.next;
+			head.next = p;
+		}
+	}
+	
+	void show()
+	{
+		Node p = head;
+		while (p.next!=null)
+		{
+			p = p.next;
+			System.out.println(p.data+" ");
+		}
+	}
+}
+
+class DelDup
+
+public class Main
+{
+	public static void main(String args[])
+	{
+		LL ll = new LL();
+		ll.insert(4);
+		ll.insert(3);
+		ll.insert(3);
+		ll.insert(2);
+		ll.insert(1);
+		ll.show();
+	}
+}
